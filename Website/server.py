@@ -90,7 +90,9 @@ def relayControl(relay, status, password):
 @app.route("/monitor/submit", methods=['POST'])
 def monitorSubmit():
     if auth_db('monitor', request.form['password']):
-        print request.form
+        for k, v in request.form.iteritems():
+            if k != 'password':
+             query_db('''INSERT INTO sensor_log (sensor, value) VALUES (?, ?)''', [k, v])
         return "OK"
     else:
         abort(401)
