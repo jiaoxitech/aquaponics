@@ -32,6 +32,39 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script>
+function monitorLatest() {
+  $.get('/latest').done(function(data) {
+    $.each(data, function(idx, value) {
+      switch(value.sensor) {
+        case 'light':
+          $('#lightVal').html(value.value);
+          $('#lightTime').html(value.timestamp);
+          break;
+        case 'rgb':
+          $('#rgbVal').html(value.value);
+          $('#rgbTime').html(value.timestamp);
+          break;
+        case 'temp':
+          $('#tempVal').html(value.value);
+          $('#tempTime').html(value.timestamp);
+          break;
+        case 'press':
+          $('#pressVal').html(value.value);
+          $('#pressTime').html(value.timestamp);
+          break;
+        case 'water1':
+          $('#waterLevel1Val').html(value.value);
+          $('#waterLevel1Time').html(value.timestamp);
+          break;
+        case 'watertemp':
+          $('#waterTempVal').html(value.value);
+          $('#waterTempTime').html(value.timestamp);
+          break;
+      }
+    });
+  }).always(function() { setTimeout(monitorLatest, 60000); });
+}
+monitorLatest();
     </script>
   </body>
 </html>

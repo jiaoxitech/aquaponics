@@ -98,5 +98,11 @@ def monitorSubmit():
         abort(401)
 
 
+@app.route("/latest")
+def latest():
+  query = '''SELECT a.sensor, a.timestamp, a.value FROM sensor_log AS a INNER JOIN (SELECT sensor, MAX(timestamp) AS timestamp FROM sensor_log GROUP BY sensor) AS b ON a.sensor     = b.sensor AND a.timestamp = b.timestamp'''
+  return jsonify(query_db(query))
+
+
 if __name__ == "__main__":
     app.run()
