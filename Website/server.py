@@ -100,9 +100,23 @@ def monitorSubmit():
 
 @app.route("/latest")
 def latest():
-  query = '''SELECT a.sensor, a.timestamp, a.value FROM sensor_log AS a INNER JOIN (SELECT sensor, MAX(timestamp) AS timestamp FROM sensor_log GROUP BY sensor) AS b ON a.sensor     = b.sensor AND a.timestamp = b.timestamp'''
-  return jsonify(query_db(query))
+    query = '''SELECT a.sensor, a.timestamp, a.value FROM sensor_log AS a INNER JOIN (SELECT sensor, MAX(timestamp) AS timestamp FROM sensor_log GROUP BY sensor) AS b ON a.sensor     = b.sensor AND a.timestamp = b.timestamp'''
+    return jsonify(query_db(query))
 
+@app.route("/charts/airtemp/<int:limits>")
+def chartAirTemp(limits):
+    query = '''SELECT timestamp, value FROM sensor_log WHERE sensor = 'temp' ORDER BY timestamp DESC LIMIT ?'''
+    return jsonify(query_db(query,[limits]))
+
+@app.route("/charts/watertemp/<int:limits>")
+def chartWaterTemp(limits):
+    query = '''SELECT timestamp, value FROM sensor_log WHERE sensor = 'watertemp' ORDER BY timestamp DESC LIMIT ?'''
+    return jsonify(query_db(query,[limits]))
+
+@app.route("/charts/light/<int:limits>")
+def chartLight(limits):
+    query = '''SELECT timestamp, value FROM sensor_log WHERE sensor = 'light' ORDER BY timestamp DESC LIMIT ?'''
+    return jsonify(query_db(query,[limits]))
 
 if __name__ == "__main__":
     app.run()
