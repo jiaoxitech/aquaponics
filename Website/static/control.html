@@ -64,7 +64,7 @@
               <td><select id="r7starthour"></select> to <select id="r7endhour"></select>  All Day <input type="checkbox" id="r7allday" /></td>
             </tr>
             <tr>
-              <td colspan="3"><span class="pull-right"><button class="btn btn-default">Update Changes</button></span></td>
+              <td colspan="3"><span class="pull-right"><button class="btn btn-default" id="updateChangesBtn">Update Changes</button></span></td>
             </tr>
           </tbody>
         </table>
@@ -140,36 +140,91 @@ $.get("/admin/relays", function(resultset){
 });
 
 $('#r1allday').click(function() {
-  $('#r1starthour').val(0);
-  $('#r1endhour').val(0);
-  $('#r1starthour').prop('disabled', true);
-  $('#r1endhour').prop('disabled', true);
+  $('#r1starthour').prop('disabled', this.checked);
+  $('#r1endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r1starthour').val(0);
+    $('#r1endhour').val(0);
+  }
 });
 $('#r2allday').click(function() {
-  $('#r2starthour').val(0);
-  $('#r2endhour').val(0);
-  $('#r2starthour').prop('disabled', true);
-  $('#r2endhour').prop('disabled', true);
+  $('#r2starthour').prop('disabled', this.checked);
+  $('#r2endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r2starthour').val(0);
+    $('#r2endhour').val(0);
+  } else {
+    $('#r2starthour').val(8);
+    $('#r2endhour').val(18);
+  }
 });
 $('#r3allday').click(function() {
-  $('#r3starthour').val(0);
-  $('#r3endhour').val(0);
+  $('#r3starthour').prop('disabled', this.checked);
+  $('#r3endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r3starthour').val(0);
+    $('#r3endhour').val(0);
+  } else {
+    $('#r3starthour').val(8);
+    $('#r3endhour').val(18);
+  }
 });
 $('#r4allday').click(function() {
-  $('#r4starthour').val(0);
-  $('#r4endhour').val(0);
+  $('#r4starthour').prop('disabled', this.checked);
+  $('#r4endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r4starthour').val(0);
+    $('#r4endhour').val(0);
+  } else {
+    $('#r4starthour').val(8);
+    $('#r4endhour').val(18);
+  }
 });
 $('#r5allday').click(function() {
-  $('#r5starthour').val(0);
-  $('#r5endhour').val(0);
+  $('#r5starthour').prop('disabled', this.checked);
+  $('#r5endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r5starthour').val(0);
+    $('#r5endhour').val(0);
+  } else {
+    $('#r5starthour').val(8);
+    $('#r5endhour').val(18);
+  }
 });
 $('#r6allday').click(function() {
-  $('#r6starthour').val(0);
-  $('#r6endhour').val(0);
+  $('#r6starthour').prop('disabled', this.checked);
+  $('#r6endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r6starthour').val(0);
+    $('#r6endhour').val(0);
+  } else {
+    $('#r6starthour').val(8);
+    $('#r6endhour').val(18);
+  }
 });
 $('#r7allday').click(function() {
-  $('#r7starthour').val(0);
-  $('#r7endhour').val(0);
+  $('#r7starthour').prop('disabled', this.checked);
+  $('#r7endhour').prop('disabled', this.checked);
+  if (this.checked) {
+    $('#r7starthour').val(0);
+    $('#r7endhour').val(0);
+  } else {
+    $('#r7starthour').val(8);
+    $('#r7endhour').val(18);
+  }
+});
+$('#updateChangesBtn').click(function() {
+  var postData = {
+    password: password,
+    r1: {s: $('#r1starthour').val(), e: $('#r1endhour').val(), a: ($('#r1allday').is(':checked'))?1:0},
+    r2: {s: $('#r2starthour').val(), e: $('#r2endhour').val(), a: ($('#r2allday').is(':checked'))?1:0},
+    r3: {s: $('#r3starthour').val(), e: $('#r3endhour').val(), a: ($('#r3allday').is(':checked'))?1:0},
+    r4: {s: $('#r4starthour').val(), e: $('#r4endhour').val(), a: ($('#r4allday').is(':checked'))?1:0},
+    r5: {s: $('#r5starthour').val(), e: $('#r5endhour').val(), a: ($('#r5allday').is(':checked'))?1:0},
+    r6: {s: $('#r6starthour').val(), e: $('#r6endhour').val(), a: ($('#r6allday').is(':checked'))?1:0},
+    r7: {s: $('#r7starthour').val(), e: $('#r7endhour').val(), a: ($('#r7allday').is(':checked'))?1:0}
+  }
+  $.post("/admin/relays", postData);
 });
     </script>
   </body>

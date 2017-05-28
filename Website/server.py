@@ -73,8 +73,14 @@ def updatePassword():
 @app.route("/admin/relays", methods=['GET', 'POST'])
 def relayAdmin():
     if request.method == 'POST':
-        #do_the_login()
-        abort(401)
+        print request.form
+        if auth_db('admin', request.form['password']):
+            for i in range(1,8):
+                query_db('''UPDATE relays SET timeOn = ?, timeOff = ?, allDay = ? WHERE relay = ?''',
+                    [request.form['r{}[s]'.format(i)],request.form['r{}[e]'.format(i)],request.form['r{}[a]'.format(i)],i])
+            return "OK"
+        else:
+            abort(401)
     else:
         return jsonify(query_db('''SELECT relay, status, timeOn, timeOff, allDay FROM relays'''))
 
