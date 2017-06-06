@@ -73,7 +73,6 @@ def updatePassword():
 @app.route("/admin/relays", methods=['GET', 'POST'])
 def relayAdmin():
     if request.method == 'POST':
-        print request.form
         if auth_db('admin', request.form['password']):
             for i in range(1,8):
                 query_db('''UPDATE relays SET timeOn = ?, timeOff = ?, allDay = ? WHERE relay = ?''',
