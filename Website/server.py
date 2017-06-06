@@ -83,6 +83,11 @@ def relayAdmin():
     else:
         return jsonify(query_db('''SELECT relay, status, timeOn, timeOff, allDay FROM relays'''))
 
+@app.route("/relay")
+def settings():
+    query = '''SELECT relay, status, timeOn, timeOff, allDay FROM relays'''
+    return jsonify(query_db(query))
+
 @app.route("/relay/<int:relay>/<int:status>/<string:password>")
 def relayControl(relay, status, password):
     if auth_db('admin', password):
