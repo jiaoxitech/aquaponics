@@ -31,37 +31,37 @@
               <td>Water Pump</td>
               <!-- the water pump is set on "normally closed", so we reverse it here -->
               <td><button class="btn btn-default" onClick="relay(1,0);">On</button><button class="btn btn-default" onClick="relay(1,1);">Off</button></td>
-              <td><select id="r1starthour"></select> to <select id="r1endhour"></select>  All Day <input type="checkbox" id="r1allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r1auto" /><select id="r1starthour"></select> to <select id="r1endhour"></select>  All Day <input type="checkbox" id="r1allday" /></td>
             </tr>
             <tr>
               <td>Grow Bed #1</td>
               <td><button class="btn btn-default" onClick="relay(2,1);">On</button><button class="btn btn-default" onClick="relay(2,0);">Off</button></td>
-              <td><select id="r2starthour"></select> to <select id="r2endhour"></select>  All Day <input type="checkbox" id="r2allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r2auto" /><select id="r2starthour"></select> to <select id="r2endhour"></select>  All Day <input type="checkbox" id="r2allday" /></td>
             </tr>
             <tr>
               <td>Grow Bed #2</td>
               <td><button class="btn btn-default" onClick="relay(3,1);">On</button><button class="btn btn-default" onClick="relay(3,0);">Off</button></td>
-              <td><select id="r3starthour"></select> to <select id="r3endhour"></select>  All Day <input type="checkbox" id="r3allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r3auto" /><select id="r3starthour"></select> to <select id="r3endhour"></select>  All Day <input type="checkbox" id="r3allday" /></td>
             </tr>
             <tr>
               <td>Grow Bed #3</td>
               <td><button class="btn btn-default" onClick="relay(4,1);">On</button><button class="btn btn-default" onClick="relay(4,0);">Off</button></td>
-              <td><select id="r4starthour"></select> to <select id="r4endhour"></select>  All Day <input type="checkbox" id="r4allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r4auto" /><select id="r4starthour"></select> to <select id="r4endhour"></select>  All Day <input type="checkbox" id="r4allday" /></td>
             </tr>
             <tr>
               <td>Grow Bed #4</td>
               <td><button class="btn btn-default" onClick="relay(5,1);">On</button><button class="btn btn-default" onClick="relay(5,0);">Off</button></td>
-              <td><select id="r5starthour"></select> to <select id="r5endhour"></select>  All Day <input type="checkbox" id="r5allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r5auto" /><select id="r5starthour"></select> to <select id="r5endhour"></select>  All Day <input type="checkbox" id="r5allday" /></td>
             </tr>
             <tr>
               <td>Grow Bed #5</td>
               <td><button class="btn btn-default" onClick="relay(6,1);">On</button><button class="btn btn-default" onClick="relay(6,0);">Off</button></td>
-              <td><select id="r6starthour"></select> to <select id="r6endhour"></select>  All Day <input type="checkbox" id="r6allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r6auto" /><select id="r6starthour"></select> to <select id="r6endhour"></select>  All Day <input type="checkbox" id="r6allday" /></td>
             </tr>
             <tr>
               <td>Koi Pond</td>
               <td><button class="btn btn-default" onClick="relay(7,1);">On</button><button class="btn btn-default" onClick="relay(7,0);">Off</button></td>
-              <td><select id="r7starthour"></select> to <select id="r7endhour"></select>  All Day <input type="checkbox" id="r7allday" /></td>
+              <td>Use Automatic Timer <input type="checkbox" id="r7auto" /><select id="r7starthour"></select> to <select id="r7endhour"></select>  All Day <input type="checkbox" id="r7allday" /></td>
             </tr>
             <tr>
               <td colspan="3"><span class="pull-right"><button class="btn btn-default" id="updateChangesBtn">Update Changes</button></span></td>
@@ -116,6 +116,7 @@ $('#passwordMonitorBtn').click(function(e){
 
 function relay(r, s) {
   $.get('/relay/'+r+'/'+s+'/'+password);
+  $('#r'+r+'auto').prop('checked', false);
 }
 
 function populateOptions(field, selected) {
@@ -137,6 +138,9 @@ $.get("/admin/relays", function(resultset){
       populateOptions('#r'+r['relay']+'endhour', r['timeOff']);
     }
   });
+});
+$('#r1auto').click(function() {
+
 });
 
 $('#r1allday').click(function() {
@@ -216,13 +220,13 @@ $('#r7allday').click(function() {
 $('#updateChangesBtn').click(function() {
   var postData = {
     password: password,
-    r1: {s: $('#r1starthour').val(), e: $('#r1endhour').val(), a: ($('#r1allday').is(':checked'))?1:0},
-    r2: {s: $('#r2starthour').val(), e: $('#r2endhour').val(), a: ($('#r2allday').is(':checked'))?1:0},
-    r3: {s: $('#r3starthour').val(), e: $('#r3endhour').val(), a: ($('#r3allday').is(':checked'))?1:0},
-    r4: {s: $('#r4starthour').val(), e: $('#r4endhour').val(), a: ($('#r4allday').is(':checked'))?1:0},
-    r5: {s: $('#r5starthour').val(), e: $('#r5endhour').val(), a: ($('#r5allday').is(':checked'))?1:0},
-    r6: {s: $('#r6starthour').val(), e: $('#r6endhour').val(), a: ($('#r6allday').is(':checked'))?1:0},
-    r7: {s: $('#r7starthour').val(), e: $('#r7endhour').val(), a: ($('#r7allday').is(':checked'))?1:0}
+    r1: {s: $('#r1starthour').val(), e: $('#r1endhour').val(), a: ($('#r1allday').is(':checked'))?1:0, t: ($('#r1auto').is(':checked'))?2:0},
+    r2: {s: $('#r2starthour').val(), e: $('#r2endhour').val(), a: ($('#r2allday').is(':checked'))?1:0, t: ($('#r2auto').is(':checked'))?2:0},
+    r3: {s: $('#r3starthour').val(), e: $('#r3endhour').val(), a: ($('#r3allday').is(':checked'))?1:0, t: ($('#r3auto').is(':checked'))?2:0},
+    r4: {s: $('#r4starthour').val(), e: $('#r4endhour').val(), a: ($('#r4allday').is(':checked'))?1:0, t: ($('#r4auto').is(':checked'))?2:0},
+    r5: {s: $('#r5starthour').val(), e: $('#r5endhour').val(), a: ($('#r5allday').is(':checked'))?1:0, t: ($('#r5auto').is(':checked'))?2:0},
+    r6: {s: $('#r6starthour').val(), e: $('#r6endhour').val(), a: ($('#r6allday').is(':checked'))?1:0, t: ($('#r6auto').is(':checked'))?2:0},
+    r7: {s: $('#r7starthour').val(), e: $('#r7endhour').val(), a: ($('#r7allday').is(':checked'))?1:0, t: ($('#r7auto').is(':checked'))?2:0}
   }
   $.post("/admin/relays", postData);
 });

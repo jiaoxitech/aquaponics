@@ -77,6 +77,8 @@ def relayAdmin():
             for i in range(1,8):
                 query_db('''UPDATE relays SET timeOn = ?, timeOff = ?, allDay = ? WHERE relay = ?''',
                     [request.form['r{}[s]'.format(i)],request.form['r{}[e]'.format(i)],request.form['r{}[a]'.format(i)],i])
+                if request.form['r{}[t]'.format(i)] == 2:
+                    query_db('''UPDATE relays SET status = 2 WHERE relay = ?''', [i])
             return "OK"
         else:
             abort(401)
