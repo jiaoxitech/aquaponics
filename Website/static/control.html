@@ -127,15 +127,20 @@ function populateOptions(field, selected) {
 
 $.get("/admin/relays", function(resultset){
   $.each(resultset, function(i,r) {
-    if (r['allDay']) {
-      $('#r'+r['relay']+'allday').prop('checked', true);
-      populateOptions('#r'+r['relay']+'starthour', 0);
-      populateOptions('#r'+r['relay']+'endhour', 0);
-      $('#r'+r['relay']+'starthour').prop('disabled', true);
-      $('#r'+r['relay']+'endhour').prop('disabled', true);
+    if (r['status'] == 2) {
+      $('#r'+r['relay']+'auto').prop('checked', true);
+      if (r['allDay']) {
+        $('#r'+r['relay']+'allday').prop('checked', true);
+        populateOptions('#r'+r['relay']+'starthour', 0);
+        populateOptions('#r'+r['relay']+'endhour', 0);
+        $('#r'+r['relay']+'starthour').prop('disabled', true);
+        $('#r'+r['relay']+'endhour').prop('disabled', true);
+      } else {
+        populateOptions('#r'+r['relay']+'starthour', r['timeOn']);
+        populateOptions('#r'+r['relay']+'endhour', r['timeOff']);
+      }
     } else {
-      populateOptions('#r'+r['relay']+'starthour', r['timeOn']);
-      populateOptions('#r'+r['relay']+'endhour', r['timeOff']);
+      $('#r'+r['relay']+'auto').prop('checked', false);
     }
   });
 });
