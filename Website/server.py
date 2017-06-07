@@ -74,11 +74,14 @@ def updatePassword():
 def relayAdmin():
     if request.method == 'POST':
         if auth_db('admin', request.form['password']):
+            print '''Received change request...'''
             for i in range(1,8):
                 query_db('''UPDATE relays SET timeOn = ?, timeOff = ?, allDay = ? WHERE relay = ?''',
                     [request.form['r{}[s]'.format(i)],request.form['r{}[e]'.format(i)],request.form['r{}[a]'.format(i)],i])
-                if request.form['r{}[t]'.format(i)] == 2:
+                print '''Setting Relay {} to timeOn: {}, timeOff: {}, allDay: {}'''.format(i,request.form['r{}[s]'.format(i)],request.form['r{}[e]'.format(i)],request.form['r{}[a]'.format(i)])
+                if int(request.form['r{}[t]'.format(i)]) == 2:
                     query_db('''UPDATE relays SET status = 2 WHERE relay = ?''', [i])
+                    print '''Setting Relay {} to Automatic Timer'''.format(i)
             return "OK"
         else:
             abort(401)
