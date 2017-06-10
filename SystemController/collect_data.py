@@ -33,7 +33,15 @@ def read_temp():
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(22, GPIO.OUT)
+
+# Power the water level sensor
+GPIO.setup(10, GPIO.OUT)
+
+# Water Pump Relay
+GPIO.setup(9, GPIO.OUT)
+
 GPIO.output(22, GPIO.HIGH)
+GPIO.output(10, GPIO.HIGH)
 
 try:
   lux = light.light()
@@ -43,13 +51,12 @@ try:
   water1 = analog.read(0)
   waterTemp = read_temp();
 
-  '''
   if water1 < 0.5:
-    r = requests.get('http://127.0.0.1:5000/relay/1/0')
+    GPIO.output(9, GPIO.HIGH)
   else:
-    r = requests.get('http://127.0.0.1:5000/relay/1/1')
-  '''
-  
+    GPIO.output(9, GPIO.LOW)
+
+
   datavals = {
     'password': monitor_password,
     'light': lux,

@@ -120,7 +120,9 @@ function relay(r, s) {
 }
 
 function populateOptions(field, selected) {
+  console.log('populating: '+ field);
   $.each(new Array(24), function(i, v) {
+    console.log(i);
     $(field).append($('<option>', {value: i, text: i+':00', selected: (i==selected)?true:false}));
   });
 }
