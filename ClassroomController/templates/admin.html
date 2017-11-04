@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+<p class="lead">Administration</p>
+<hr />
+<p>&nbsp;</p>
+<div class="row">
+  <div class="col-sm-6"><a href="{{url_for('admin_lights', mode='on')}}" role="button" class="btn btn-outline-primary btn-lg">Lights On</a></div>
+  <div class="col-sm-6 text-right"><a href="{{url_for('admin_lights', mode='off')}}" role="button" class="btn btn-outline-secondary btn-lg">Lights Off</a></div>
+</div>
+{% endblock %}
